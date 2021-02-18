@@ -67,7 +67,35 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: despense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-           
+            // create a double variable and set it eqaul to that method call
+            // double totalSum = Total...(payment);
+            double totalSum = TotalCoinValue(payment);
+            double changeAmount = totalSum - chosenSoda.Price;
+           if( totalSum < chosenSoda.Price)
+            {               
+                customer.AddCoinsIntoWallet(payment);
+            }
+           else if(totalSum == chosenSoda.Price)
+            {
+                customer.AddCanToBackpack(chosenSoda);
+                _inventory.Remove(chosenSoda);
+            }
+           else if(totalSum > chosenSoda.Price)
+            {
+                List<Coin> change = GatherChange(changeAmount);
+                //if change is a list of coins....do what?
+                //if change isnull.....do what?
+                if(change ==  null)
+                {
+                    customer.AddCoinsIntoWallet(change);
+                }
+                else if(change != null)
+                {
+                    customer.AddCanToBackpack(chosenSoda);
+                    _inventory.Remove(chosenSoda);
+                }
+
+            }
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
@@ -75,7 +103,7 @@ namespace SodaMachine
         //If the change cannot be made, return null.
         private List<Coin> GatherChange(double changeValue)
         {
-            
+
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
@@ -94,15 +122,27 @@ namespace SodaMachine
         {
             
         }
-        //Takes in a list of coins to returnt he total value of the coins as a double.
+        //Takes in a list of coins to return the total value of the coins as a double.
+        // Create a variable to hold our sum 
+        // Loop over the list of coins
+        // Inside of the loop, take the coin vlaue that we are currently looping over and add it to our sum variable
+        // Return the sum variable
         private double TotalCoinValue(List<Coin> payment)
         {
-           
+            
+            double sum = 0;
+          
+            foreach ( Coin coin in payment )
+            {
+                sum += coin.Value;
+            }
+            return sum;
+            
         }
         //Puts a list of coins into the soda machines register.
         private void DepositCoinsIntoRegister(List<Coin> coins)
         {
-           
+            _register.AddRange(coins);
         }
     }
 }
