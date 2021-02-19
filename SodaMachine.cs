@@ -71,6 +71,7 @@ namespace SodaMachine
             // double totalSum = Total...(payment);
             double totalSum = TotalCoinValue(payment);
             double changeAmount = totalSum - chosenSoda.Price;
+            string SodaAmount = UserInterface.SodaSelection(_inventory);
            if( totalSum < chosenSoda.Price)
             {               
                 customer.AddCoinsIntoWallet(payment);
@@ -92,10 +93,16 @@ namespace SodaMachine
                 else if(change != null)
                 {
                     customer.AddCanToBackpack(chosenSoda);
+                    customer.AddCoinsIntoWallet(change);
                     _inventory.Remove(chosenSoda);
+                }
+               else if( chosenSoda
+                {
+
                 }
 
             }
+         
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
